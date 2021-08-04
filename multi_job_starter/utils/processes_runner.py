@@ -32,12 +32,12 @@ def create_arguments_parser(args_definition_list: list[ArgDefinition]) -> Namesp
     return ap.parse_args()
 
 
-def get_targets_from_file(file_name: str) -> list[str]:
-    return pathlib.Path().absolute().parent.joinpath(file_name).read_text().splitlines()
+def get_targets_from_file(file_path: pathlib.Path) -> list[str]:
+    return file_path.read_text().splitlines()
 
 
-def save_results_to_file(file_name: str, results: str) -> None:
-    pathlib.Path().absolute().parent.joinpath(file_name).write_text(results)
+def save_results_to_file(file_path: pathlib.Path, results: str) -> None:
+    file_path.write_text(results)
 
 
 @dataclass
@@ -48,10 +48,10 @@ class ProcessesRunner:
     @classmethod
     async def run_from_cmd(cls, script_definition: ScriptDefinition) -> None:
         args: Namespace = create_arguments_parser(args_definition_list=script_definition.args_definition_list)
-        obj: ProcessesRunner = cls(targets=get_targets_from_file(file_name=args.file_input))
+        obj: ProcessesRunner = cls(targets=get_targets_from_file(file_path=args.file_input))
         obj._create_tasks(command=args.command, max_concurrent_instances=int(args.concurrent_instances))
         results: Types.ASYNCIO_GATHER = await obj.start_jobs()
-        save_results_to_file(file_name=args.file_output, results=json.dumps([result.to_json() for result in results]))
+        save_results_to_file(file_path=args.file_output, results=json.dumps([result.to_json() for result in results]))
 
     async def start_jobs(self) -> Types.ASYNCIO_GATHER:
         return await asyncio.gather(*self.tasks)

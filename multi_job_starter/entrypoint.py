@@ -6,6 +6,7 @@ The goal of the app is to run asynchronously multi target scopes.
 
 import asyncio
 import logging
+import pathlib
 from time import time
 
 from utils.config import Config
@@ -16,8 +17,8 @@ from utils.helpers import ScriptDefinition, ArgDefinition
 script_definition = ScriptDefinition(
     args_definition_list=[
         ArgDefinition(short_arg='-c', full_arg='--command', name='command to run with', type=str),
-        ArgDefinition(short_arg='-f', full_arg='--file-input', name='input file with targets', type=str),
-        ArgDefinition(short_arg='-r', full_arg='--file-output', name='output file with results', type=str),
+        ArgDefinition(short_arg='-f', full_arg='--file-input', name='input file with targets', type=pathlib.Path),
+        ArgDefinition(short_arg='-r', full_arg='--file-output', name='output file with results', type=pathlib.Path),
         ArgDefinition(short_arg='-ci', full_arg='--concurrent-instances',
                       name='number of concurrency instances', type=int),
     ],
