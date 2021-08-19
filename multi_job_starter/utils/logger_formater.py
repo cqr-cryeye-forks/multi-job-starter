@@ -5,8 +5,8 @@
 Module to format multiline Exception into regular string
 """
 
-import os
 import logging
+import os
 
 from .config import Types
 

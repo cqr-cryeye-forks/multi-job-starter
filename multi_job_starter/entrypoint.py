@@ -3,16 +3,14 @@
 This is an entrypoint for multi stater app.
 The goal of the app is to run asynchronously multi target scopes.
 """
-
 import asyncio
 import logging
 import pathlib
 from time import time
 
 from utils.config import Config
-from utils.processes_runner import ProcessesRunner
 from utils.helpers import ScriptDefinition, ArgDefinition
-
+from utils.processes_runner import ProcessesRunner
 
 script_definition = ScriptDefinition(
     args_definition_list=[
@@ -26,6 +24,10 @@ script_definition = ScriptDefinition(
 
 
 async def main() -> None:
+    """
+    Entrypoint into the application.
+    :return: None
+    """
     await ProcessesRunner.run_from_cmd(script_definition=script_definition)
 
 
